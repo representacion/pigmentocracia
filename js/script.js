@@ -78,7 +78,7 @@ let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
                 return `${dato.properties["estado"]} -
                 <b>Distrito ${dato.properties["distrito"].substr(2,2)}</b><br>
                ${estaData.NOMBRE_DISTRITO_FEDERAL}<hr>
-               Gana: ${ganadores.get("0302").ganador.replaceAll("_"," ")}` }
+               Gana: ${ganadores.get(estaData.CVEDIS).ganador.replaceAll("_"," ")}` }
               })
     // .on("click", click);
 
