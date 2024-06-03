@@ -11,6 +11,10 @@ body {
     
 }
 
+.textito{
+    max-width: 600px;
+    margin: auto;
+}
 .row {
     --bs-gutter-x: 1.5rem;
   --bs-gutter-y: 0;
@@ -33,7 +37,7 @@ body {
         overflow: auto;
     }
     #mapa svg {
-        width: 700px;
+        width: 900px;
         max-width: none !important;
     }
     
@@ -158,5 +162,12 @@ body {
       padding: 6px;
       border-radius: 5px;;
     
-    }    
+    } 
+    
+    .distrito, .estados {
+
+        stroke-width: 1px;
+    
+    }
+
 }
