@@ -104,8 +104,12 @@ let pintar = Promise.all([datap,datae,distdata,datos]).then(function(data) {
                 return `${dato.properties["estado"]} -
                 <b>Distrito ${dato.properties["distrito"].substr(2,2)}</b><br>
                ${estaData.NOMBRE_DISTRITO_FEDERAL}<hr>
-               Gana: ${ganadores.get(estaData.CVEDIS).ganador.replaceAll("_"," ").replaceAll("-"," ") || "Aún no se define"}` }
-              })
+               Gana: ${ganadores.get(estaData.CVEDIS).ganador.replaceAll("_"," ").replaceAll("-"," ")}` 
+              } else {
+                return `${dato.properties["estado"]} -
+                <b>Distrito ${dato.properties["distrito"].substr(2,2)}</b><br>Aún no se ha reportado este distrito.`
+              }
+            })
     // .on("click", click);
 
 
