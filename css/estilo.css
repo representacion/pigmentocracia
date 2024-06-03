@@ -1,0 +1,25 @@
+body {
+    font-family: "Montserrat", sans-serif;
+}
+
+#mapa {
+    border-style: solid;
+    padding: 4rem;
+    border-width: 1px;
+    border-radius: 2rem;
+    
+}
+
+.row {
+    --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+  width: 100%;
+  padding-right: calc(var(--bs-gutter-x) * .5);
+  padding-left: calc(var(--bs-gutter-x) * .5);
+}
+
+
+#tits {
+    padding-left: 0;
+    padding-right: 0;
+}

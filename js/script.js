@@ -1,0 +1,126 @@
+
+
+const apiUrl = 'https://prep2021.ine.mx/diputaciones/nacional/assets/data1/mapas/circunscripcion/entidad/distrito/dataMapaDistritos.json';
+const url = 'https://corsproxy.io/?' + encodeURIComponent(apiUrl);
+
+let colormap = new Map();
+let ganadores = new Map();
+
+let datos = fetch(url).then(response => {
+  if (!response.ok) {
+    if (response.status === 404) {
+      throw new Error('No se encontro la data');
+    } else if (response.status === 500) {
+      throw new Error('Error de servidor');
+    } else {
+      throw new Error('No hubo una respuesta correcta');
+    }
+  }
+  return response.json();
+})
+.then(data => {
+  data.dataClasses.forEach(ele => {
+    colormap.set(ele["from"].toString(),{"coalicion":ele["name"],"color":ele["color"]})
+  });
+  data.data.forEach(ele => {
+    let piezas = ele["ENTIDAD_DISTRITO"].split("_");
+    let cve = piezas[0].padStart(2,"0") + piezas[1].padStart(2,"0");
+    ganadores.set(cve,{"cvecoal":ele["value"],"votos":ele["votos"]})
+  });
+})
+.catch(error => {
+  console.error('Error: ', error);
+});
+
+const div = d3.select("#mapa");
+const width = parseInt(d3.select("#mapa").style("width"));
+const height = width * 0.65;
+let datamap = new Map();
+
+let svg = div.append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("viewBox", [0, 0, width, height])
+    .attr("style", "max-width: 100%; height: auto;");
+
+const datap = d3.json("./resources/datos/mexico300-2024.geojson");
+const datae = d3.json("./resources/datos/mexico300bordes-2024.geojson");
+const distdata = d3.csv("./resources/datos/distdata.csv");
+
+let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
+
+    let distritos = data[0];
+    let estados = data[1];
+    let datos = data[2];
+
+    console.log(datos);
+
+    datos.forEach(element => {
+        datamap.set(element["CVEDIS"],element);
+    });
+
+    var projection = d3.geoIdentity().reflectY(true).fitSize([width,height],distritos);
+    var path = d3.geoPath(projection);
+  
+    let disthex = svg.selectAll(".distrito")
+        .data(distritos.features)
+        .enter()
+        .append("path")
+        .attr("class","distrito")
+        .attr("d",path)
+        .style("fill", "lightgray")
+        .style("stroke", "white")
+        .style("stroke-width","3px")
+        .on("click", click);
+
+    svg.selectAll(".estados")
+        .data(estados.features)
+        .enter()
+        .append("path")
+        .attr("class","estados")
+        .attr("d",path)
+        .style("fill", "none")
+        .style("stroke", "black")
+        .style("stroke-width","3px");
+
+    return disthex;
+
+  });
+
+  Promise.all([pintar,datos]).then(function(data) {
+    console.log(colormap);
+    console.log(ganadores);
+
+    let disthex = data[0];
+
+    disthex.style("fill", d => {
+      let cve = d["properties"]["distrito"];
+      let gandat = ganadores.get(cve);
+      if (gandat) {
+        let ganador = gandat["cvecoal"];
+        let color = colormap.get(ganador)["color"];
+        return color
+      }
+      return "lightgray"
+    })
+
+  });
+
+  function click(e,d) {
+
+    d3.select("#barra").selectAll("*").remove();
+
+    d3.selectAll(".distrito").style("fill","lightgray");
+    d3.select(this).style("fill","#7800E0");
+
+    let dato = datamap.get(d["properties"]["distrito"]);
+    console.log(dato);
+
+    d3.select("#barra").append("h2").html(dato["NOMBRE_ENTIDAD"] + ", Distrito " + dato["DISTRITO_FEDERAL"]);
+    d3.select("#barra").append("h3").html(dato["NOMBRE_DISTRITO_FEDERAL"]);
+
+    d3.select("#barra").append("p").html("Lista nominal: " + d3.format(",.0f")(dato["LN"]))
+    d3.select("#barra").append("p").html("Hombres: " + d3.format(",.0f")(dato["LN_HOMBRES"]))
+    d3.select("#barra").append("p").html("Hombres: " + d3.format(",.0f")(dato["LN_MUJERES"]))
+}
+
