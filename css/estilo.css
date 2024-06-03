@@ -4,10 +4,10 @@ body {
 
 #mapa {
     /* border-style: solid; */
-    padding: 1rem;
+    /* padding: 1rem;
     border-width: 1px;
-    border-radius: 0.6rem;
-    background-color: #eee;
+    border-radius: 0.6rem; */
+    background-color: #fff;
     
 }
 
@@ -51,7 +51,7 @@ body {
 
 .estados  {
     fill: none;
-    stroke: #409;
+    stroke: #555;
     stroke-width: 3px;
 }
 
@@ -61,15 +61,15 @@ body {
 }
 
 .distrito {
-    fill: #DCF;
-    stroke: #EFDFFF;
+    fill: silver;
+    stroke: silver;
     stroke-width: 3px;
     font-family: "Saira Condensed";
 
 }
 .distrito:hover {
     fill: #fff;
-    stroke-width: 0px;
+    /* stroke-width: 0px; */
 }
 
 .distrito_clickeado {
