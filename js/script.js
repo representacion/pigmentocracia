@@ -105,7 +105,7 @@ let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
 
     let disthex = data[0];
 
-    disthex.style("fill", d => {
+    disthex.select("path").style("fill", d => {
       let cve = d["properties"]["distrito"];
       let gandat = ganadores.get(cve);
       if (gandat) {
