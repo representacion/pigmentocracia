@@ -1,9 +1,9 @@
 
 
 const apiUrl = 'https://prep2024.ine.mx/publicacion/nacional/assets/diputaciones/mapas/nacional/nacional.json';
-const url = 'https://corsproxy.io/?' + encodeURIComponent(apiUrl);
+const url = 'https://corsproxy.io/?' + encodeURIComponent(apiUrl) + "?rand="+Math.random();
 const avanceApiUrl = 'https://prep2024.ine.mx/publicacion/nacional/assets/diputaciones/avanceNacional.json';
-const avanceUrl = 'https://corsproxy.io/?' + encodeURIComponent(avanceApiUrl);
+const avanceUrl = 'https://corsproxy.io/?' + encodeURIComponent(avanceApiUrl)  + "?rand="+Math.random();
 
 
 let ganadores = new Map();
