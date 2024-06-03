@@ -21,7 +21,7 @@ let datos = fetch(url).then(response => {
   data.ganador.data.forEach(ele => {
     let piezas = ele["ENTIDAD_DISTRITO"].split("_");
     let cve = piezas[0].padStart(2,"0") + piezas[1].padStart(2,"0");
-    ganadores.set(cve,{"color":ele["color"],
+    ganadores.set(cve,{"color":ele["color"],"ganador":ele["img_partido"].replace(".png","")
   })
   });
 })
@@ -72,7 +72,14 @@ let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
         .append("path")
             .attr("d",path)
             .attr("class","distrito")
-            .attr("data-tippy-content",(dato)=>{ return `<b>${dato.properties["estado"]}</b>(Distrito ${dato.properties["distrito"].substr(2,2)})<br>` })
+            .attr("data-tippy-content",(dato)=>{ 
+              var estaData = datos.filter(d=>d.CVEDIS == dato.properties.distrito)[0]
+              if(estaData) {
+                return `${dato.properties["estado"]}: <b>Distrito ${dato.properties["distrito"].substr(2,2)}</b> <br>
+               (${estaData.NOMBRE_DISTRITO_FEDERAL})<br>
+               ${ganadores.get(estaData.CVEDIS)}
+               ` }
+              })
     // .on("click", click);
 
 
@@ -107,7 +114,7 @@ let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
   });
 
   Promise.all([pintar,datos]).then(function(data) {
-    console.log(ganadores);
+    console.log("ganadores",ganadores);
 
     let disthex = data[0];
 
