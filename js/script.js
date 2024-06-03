@@ -34,13 +34,13 @@ let datos = fetch(url).then(response => {
 
 const div = d3.select("#mapa");
 const width = parseInt(d3.select("#mapa").style("width"));
-const height = width * 0.65;
+const height = width * 0.75;
 let datamap = new Map();
 
 let svg = div.append("svg")
     .attr("width", width)
     .attr("height", height)
-    .attr("viewBox", [0, 0, width, height])
+    .attr("viewBox", [-3, -3, width+3, height+13])
     .attr("style", "max-width: 100%; height: auto;");
 
 const datap = d3.json("./resources/datos/mexico300-2024.geojson");
@@ -59,15 +59,20 @@ let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
         datamap.set(element["CVEDIS"],element);
     });
 
+
+    console.log("features",distritos.features)
+    
     var projection = d3.geoIdentity().reflectY(true).fitSize([width,height],distritos);
     var path = d3.geoPath(projection);
   
     let disthex = svg.selectAll(".distrito")
         .data(distritos.features)
-        .enter()
-        .append("g")
-        .attr("d",path)
-        .attr("class","distrito_group")
+        .join("g")
+        .attr("class","distrito_group");
+
+
+        
+    disthex
         .append("path")
             .attr("d",path)
             .attr("class","distrito")
@@ -105,7 +110,7 @@ let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
 
     let disthex = data[0];
 
-    disthex.style("fill", d => {
+    disthex.select("path").style("fill", d => {
       let cve = d["properties"]["distrito"];
       let gandat = ganadores.get(cve);
       if (gandat) {

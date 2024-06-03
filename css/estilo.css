@@ -3,10 +3,11 @@ body {
 }
 
 #mapa {
-    border-style: solid;
-    padding: 4rem;
+    /* border-style: solid; */
+    padding: 1rem;
     border-width: 1px;
-    border-radius: 2rem;
+    border-radius: 0.6rem;
+    background-color: #eee;
     
 }
 
