@@ -53,14 +53,13 @@ let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
     let estados = data[1];
     let datos = data[2];
 
-    console.log(datos);
+    console.log(datos, distritos);
 
     datos.forEach(element => {
         datamap.set(element["CVEDIS"],element);
     });
 
 
-    console.log("features",distritos.features)
     
     var projection = d3.geoIdentity().reflectY(true).fitSize([width,height],distritos);
     var path = d3.geoPath(projection);
@@ -80,14 +79,13 @@ let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
     // .on("click", click);
 
 
-    svg.selectAll(".distrito_group")
-        .append("text")
-        .text((dato)=>{  return dato.properties["distrito"].substr(2,2) } )
-        .attr("d",path)
-        // .attr("x",(dato)=> {console.log("x",dato.geometry.coordinates);return dato.geometry.coordinates[0][0][0]})
-        // .attr("y",(dato)=> {console.log("y",dato.geometry.coordinates[0][2][0]);return dato.geometry.coordinates[0][2][0]})
-        // .x(100).y(100)
-        // .transform(d3.select(dato).attr("transform")).translate
+    
+    // disthex.append("text")
+    // .attr("x", d=>factorAjuste+d.geometry.coordinates[0][0][0]*factorAjuste)
+    // .attr("y", d=>-55*factorAjuste-d.geometry.coordinates[0][0][1]*factorAjuste)
+    // .text((dato)=>{  return dato.properties["distrito"].substr(2,2) } ) 
+
+
 
 
     svg.selectAll(".estados")
