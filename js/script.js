@@ -75,9 +75,9 @@ let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
             .attr("data-tippy-content",(dato)=>{ 
               var estaData = datos.filter(d=>d.CVEDIS == dato.properties.distrito)[0];
               if(estaData) {
-                return `${dato.properties["estado"]}<br>
-                <b>Distrito ${dato.properties["distrito"].substr(2,2)}</b>
-              - ${estaData.NOMBRE_DISTRITO_FEDERAL}<br>
+                return `${dato.properties["estado"]} -
+                <b>Distrito ${dato.properties["distrito"].substr(2,2)}</b><br>
+               ${estaData.NOMBRE_DISTRITO_FEDERAL}<hr>
                Gana: ${ganadores.get("0302").ganador.replace("_"," ")}` }
               })
     // .on("click", click);
