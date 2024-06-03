@@ -92,14 +92,16 @@ let pintar = Promise.all([datap,datae,distdata,datos]).then(function(data) {
         .attr("class","distrito_group");
 
 
-        console.log("ganadores", ganadores.get("0302"))
-        
+        // console.log("ganadores", ganadores.get("0302"))
+
+    // console.log("disthex", disthex)    
     disthex
         .append("path")
             .attr("d",path)
             .attr("class","distrito")
             .attr("data-tippy-content",(dato)=>{ 
-              var estaData = datos.filter(d=>d.CVEDIS == dato.properties.distrito)[0];
+              // console.log("tippy",dato.properties.distrito);
+              var estaData = datos.filter(d=> d.CVEDIS == dato.properties.distrito )[0];
               if(estaData) {
                 return `${dato.properties["estado"]} -
                 <b>Distrito ${dato.properties["distrito"].substr(2,2)}</b><br>
