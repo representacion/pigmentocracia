@@ -26,18 +26,26 @@
         <div class="row">
             <div class="col-md-12">
                 <h1>Elecciones 2024</h1>
-                <p class="lead">Resultados preliminares de diputados por distrito, México</p>
+                <p class="lead">Resultados preliminares de diputados por distrito, México. 
+                </p>
                     <div id="mapa"></div>
             </div>
         </div>
     </div>
     <div class="footer textito" style="text-align: center;">
         <p>
-            La representación hexagonal de los distritos equivale a una cantidad proporcional de personas. Hay distritos muy grandes que muestran áreas geográficas extensas pero con poca gente. Este diseño muestra una justa proporcionalidad de la población votante.        </p>
-            <hr>
-            <p>
-
-            Gracias al trabajo de:
+            La representación hexagonal de los distritos equivale a una cantidad proporcional de personas. Hay distritos muy grandes que muestran áreas geográficas extensas pero con poca gente. Este diseño muestra una justa proporcionalidad de la población votante.        
+        </p>
+        <p>
+            Actualizado a las <script>
+                document.write(new Date().toLocaleTimeString() + " del "+ new Date().toLocaleDateString())
+            </script>
+            <br>
+            <strong>Toca F5</strong> o refresca tu navegador para ver los resultados actualizados.
+        </p>
+        <p>
+    
+            Gracias al trabajo de
         </p>
     
         <img class="logo" src="https://gobernantes.info/static/img/gobernantesinfo-logo.svg" alt="Gobernantes.info" width="200" height="45"><br>
@@ -56,4 +64,16 @@
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6"></script>
 <script src="./js/script.js" type="module"></script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L0JR11RKVF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-L0JR11RKVF');
+</script>
+
 </html>
