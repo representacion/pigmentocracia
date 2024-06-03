@@ -2,8 +2,12 @@
 
 const apiUrl = 'https://prep2024.ine.mx/publicacion/nacional/assets/diputaciones/mapas/nacional/nacional.json';
 const url = 'https://corsproxy.io/?' + encodeURIComponent(apiUrl);
+const avanceApiUrl = 'https://prep2024.ine.mx/publicacion/nacional/assets/diputaciones/avanceNacional.json';
+const avanceUrl = 'https://corsproxy.io/?' + encodeURIComponent(avanceApiUrl);
+
 
 let ganadores = new Map();
+let avance = new Map();
 
 let datos = fetch(url).then(response => {
   if (!response.ok) {
@@ -26,6 +30,28 @@ let datos = fetch(url).then(response => {
   })
 .catch(error => {
   console.error('Error: ', error);
+});
+let avanceDatos = fetch(avanceUrl).then(response => {
+  if (!response.ok) {
+    if (response.status === 404) {
+      throw new Error('No se encontro la data de avance');
+    } else if (response.status === 500) {
+      throw new Error('Error de servidor de avance');
+    } else {
+      throw new Error('No hubo una respuesta correcta de avance');
+    }
+  }
+  return response.json();
+})
+.then(data => {
+  console.log("avance",data);
+  avance.set("porcentaje",parseFloat(data.capturadas.porcentaje).toFixed(2));
+  avance.set("corte",data.ultimoCorte.hora + " " + data.ultimoCorte.fecha);  
+  d3.select("#corte").text(avance.get("corte"));
+  d3.select("#porcentaje").text(avance.get("porcentaje"));
+  })
+.catch(error => {
+  console.error('Error avance: ', error);
 });
 
 const div = d3.select("#mapa");
@@ -78,7 +104,7 @@ let pintar = Promise.all([datap,datae,distdata,datos]).then(function(data) {
                 return `${dato.properties["estado"]} -
                 <b>Distrito ${dato.properties["distrito"].substr(2,2)}</b><br>
                ${estaData.NOMBRE_DISTRITO_FEDERAL}<hr>
-               Gana: ${ganadores.get(estaData.CVEDIS).ganador.replaceAll("_"," ")}` }
+               Gana: ${ganadores.get(estaData.CVEDIS).ganador.replaceAll("_"," ").replaceAll("-"," ") || "Aún no se define"}` }
               })
     // .on("click", click);
 
