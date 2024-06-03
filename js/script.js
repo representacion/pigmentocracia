@@ -1,9 +1,8 @@
 
 
-const apiUrl = 'https://prep2021.ine.mx/diputaciones/nacional/assets/data1/mapas/circunscripcion/entidad/distrito/dataMapaDistritos.json';
+const apiUrl = 'https://prep2024.ine.mx/publicacion/nacional/assets/diputaciones/mapas/nacional/nacional.json';
 const url = 'https://corsproxy.io/?' + encodeURIComponent(apiUrl);
 
-let colormap = new Map();
 let ganadores = new Map();
 
 let datos = fetch(url).then(response => {
@@ -19,13 +18,12 @@ let datos = fetch(url).then(response => {
   return response.json();
 })
 .then(data => {
-  data.dataClasses.forEach(ele => {
-    colormap.set(ele["from"].toString(),{"coalicion":ele["name"],"color":ele["color"]})
-  });
-  data.data.forEach(ele => {
+  console.log(data);
+  data.ganador.data.forEach(ele => {
     let piezas = ele["ENTIDAD_DISTRITO"].split("_");
     let cve = piezas[0].padStart(2,"0") + piezas[1].padStart(2,"0");
-    ganadores.set(cve,{"cvecoal":ele["value"],"votos":ele["votos"]})
+    ganadores.set(cve,{"color":ele["color"],
+  })
   });
 })
 .catch(error => {
@@ -103,17 +101,15 @@ let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
   });
 
   Promise.all([pintar,datos]).then(function(data) {
-    console.log(colormap);
     console.log(ganadores);
 
     let disthex = data[0];
 
-    disthex.select("path").style("fill", d => {
+    disthex.style("fill", d => {
       let cve = d["properties"]["distrito"];
       let gandat = ganadores.get(cve);
       if (gandat) {
-        let ganador = gandat["cvecoal"];
-        let color = colormap.get(ganador)["color"];
+        let color = gandat["color"];
         return color
       }
       return "lightgray"
