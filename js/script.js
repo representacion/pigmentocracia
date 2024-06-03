@@ -65,13 +65,25 @@ let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
     let disthex = svg.selectAll(".distrito")
         .data(distritos.features)
         .enter()
-        .append("path")
-        .attr("class","distrito")
+        .append("g")
         .attr("d",path)
-        .style("fill", "lightgray")
-        .style("stroke", "white")
-        .style("stroke-width","3px")
-        .on("click", click);
+        .attr("class","distrito_group")
+        .append("path")
+            .attr("d",path)
+            .attr("class","distrito")
+            .attr("title",(dato)=>{ return dato.properties["estado"] + ", Distrito " + dato.properties["distrito"].substr(2,2) })
+    // .on("click", click);
+
+
+    svg.selectAll(".distrito_group")
+        .append("text")
+        .text((dato)=>{  return dato.properties["distrito"].substr(2,2) } )
+        .attr("d",path)
+        // .attr("x",(dato)=> {console.log("x",dato.geometry.coordinates);return dato.geometry.coordinates[0][0][0]})
+        // .attr("y",(dato)=> {console.log("y",dato.geometry.coordinates[0][2][0]);return dato.geometry.coordinates[0][2][0]})
+        // .x(100).y(100)
+        // .transform(d3.select(dato).attr("transform")).translate
+
 
     svg.selectAll(".estados")
         .data(estados.features)
@@ -80,8 +92,8 @@ let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
         .attr("class","estados")
         .attr("d",path)
         .style("fill", "none")
-        .style("stroke", "black")
-        .style("stroke-width","3px");
+        // .style("stroke", "black")
+        // .style("stroke-width","3px");
 
     return disthex;
 
