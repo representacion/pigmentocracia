@@ -43,7 +43,7 @@ const datap = d3.json("./resources/datos/mexico300-2024.geojson");
 const datae = d3.json("./resources/datos/mexico300bordes-2024.geojson");
 const distdata = d3.csv("./resources/datos/distdata.csv");
 
-let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
+let pintar = Promise.all([datap,datae,distdata,datos]).then(function(data) {
 
     let distritos = data[0];
     let estados = data[1];
