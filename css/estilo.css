@@ -27,6 +27,15 @@ body {
         margin: 0;
         max-width: none;
     }
+
+    #mapa {
+        width: 100%;
+        overflow: auto;
+    }
+    #mapa svg {
+        width: 700px;
+        max-width: none !important;
+    }
     
 }
 
