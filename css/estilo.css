@@ -19,6 +19,16 @@ body {
   padding-left: calc(var(--bs-gutter-x) * .5);
 }
 
+@media screen and (max-width: 700px) {
+    .col-md-12,
+    .container,
+    .row {
+        padding: 0;
+        margin: 0;
+        max-width: none;
+    }
+    
+}
 
 #tits {
     padding-left: 0;
