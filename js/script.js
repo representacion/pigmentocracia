@@ -18,7 +18,6 @@ let datos = fetch(url).then(response => {
   return response.json();
 })
 .then(data => {
-  console.log(data);
   data.ganador.data.forEach(ele => {
     let piezas = ele["ENTIDAD_DISTRITO"].split("_");
     let cve = piezas[0].padStart(2,"0") + piezas[1].padStart(2,"0");
@@ -73,7 +72,7 @@ let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
         .append("path")
             .attr("d",path)
             .attr("class","distrito")
-            .attr("title",(dato)=>{ return dato.properties["estado"] + ", Distrito " + dato.properties["distrito"].substr(2,2) })
+            .attr("data-tippy-content",(dato)=>{ return `<b>${dato.properties["estado"]}</b>(Distrito ${dato.properties["distrito"].substr(2,2)})<br>` })
     // .on("click", click);
 
 
@@ -95,6 +94,13 @@ let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
         .style("fill", "none")
         // .style("stroke", "black")
         // .style("stroke-width","3px");
+
+        tippy('.distrito', {
+          //content: '<strong>Bolded content</strong>',
+          allowHTML: true,
+          theme: 'light-border',
+        });
+
 
     return disthex;
 
