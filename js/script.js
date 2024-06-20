@@ -1,58 +1,58 @@
 
 
-const apiUrl = 'https://prep2024.ine.mx/publicacion/nacional/assets/diputaciones/mapas/nacional/nacional.json';
-const url = 'https://corsproxy.io/?' + encodeURIComponent(apiUrl) + "?rand="+Math.random();
-const avanceApiUrl = 'https://prep2024.ine.mx/publicacion/nacional/assets/diputaciones/avanceNacional.json';
-const avanceUrl = 'https://corsproxy.io/?' + encodeURIComponent(avanceApiUrl)  + "?rand="+Math.random();
+// const apiUrl = 'https://prep2024.ine.mx/publicacion/nacional/assets/diputaciones/mapas/nacional/nacional.json';
+// const url = 'https://corsproxy.io/?' + encodeURIComponent(apiUrl) + "?rand="+Math.random();
+// const avanceApiUrl = 'https://prep2024.ine.mx/publicacion/nacional/assets/diputaciones/avanceNacional.json';
+// const avanceUrl = 'https://corsproxy.io/?' + encodeURIComponent(avanceApiUrl)  + "?rand="+Math.random();
 
 
 let ganadores = new Map();
 let avance = new Map();
 
-let datos = fetch(url).then(response => {
-  if (!response.ok) {
-    if (response.status === 404) {
-      throw new Error('No se encontro la data');
-    } else if (response.status === 500) {
-      throw new Error('Error de servidor');
-    } else {
-      throw new Error('No hubo una respuesta correcta');
-    }
-  }
-  return response.json();
-})
-.then(data => {
-  data.ganador.data.forEach(ele => {
-    let piezas = ele["ENTIDAD_DISTRITO"].split("_");
-    let cve = piezas[0].padStart(2,"0") + piezas[1].padStart(2,"0");
-    ganadores.set(cve,{"color":ele["color"],"ganador":ele["img_partido"].replace(".png","")});
-  })
-  })
-.catch(error => {
-  console.error('Error: ', error);
-});
-let avanceDatos = fetch(avanceUrl).then(response => {
-  if (!response.ok) {
-    if (response.status === 404) {
-      throw new Error('No se encontro la data de avance');
-    } else if (response.status === 500) {
-      throw new Error('Error de servidor de avance');
-    } else {
-      throw new Error('No hubo una respuesta correcta de avance');
-    }
-  }
-  return response.json();
-})
-.then(data => {
-  console.log("avance",data);
-  avance.set("porcentaje",parseFloat(data.capturadas.porcentaje).toFixed(2));
-  avance.set("corte",data.ultimoCorte.hora + " " + data.ultimoCorte.fecha);  
-  d3.select("#corte").text(avance.get("corte"));
-  d3.select("#porcentaje").text(avance.get("porcentaje"));
-  })
-.catch(error => {
-  console.error('Error avance: ', error);
-});
+// let datos = fetch(url).then(response => {
+//   if (!response.ok) {
+//     if (response.status === 404) {
+//       throw new Error('No se encontro la data');
+//     } else if (response.status === 500) {
+//       throw new Error('Error de servidor');
+//     } else {
+//       throw new Error('No hubo una respuesta correcta');
+//     }
+//   }
+//   return response.json();
+// })
+// .then(data => {
+//   data.ganador.data.forEach(ele => {
+//     let piezas = ele["ENTIDAD_DISTRITO"].split("_");
+//     let cve = piezas[0].padStart(2,"0") + piezas[1].padStart(2,"0");
+//     ganadores.set(cve,{"color":ele["color"],"ganador":ele["img_partido"].replace(".png","")});
+//   })
+//   })
+// .catch(error => {
+//   console.error('Error: ', error);
+// });
+// let avanceDatos = fetch(avanceUrl).then(response => {
+//   if (!response.ok) {
+//     if (response.status === 404) {
+//       throw new Error('No se encontro la data de avance');
+//     } else if (response.status === 500) {
+//       throw new Error('Error de servidor de avance');
+//     } else {
+//       throw new Error('No hubo una respuesta correcta de avance');
+//     }
+//   }
+//   return response.json();
+// })
+// .then(data => {
+//   console.log("avance",data);
+//   avance.set("porcentaje",parseFloat(data.capturadas.porcentaje).toFixed(2));
+//   avance.set("corte",data.ultimoCorte.hora + " " + data.ultimoCorte.fecha);  
+//   d3.select("#corte").text(avance.get("corte"));
+//   d3.select("#porcentaje").text(avance.get("porcentaje"));
+//   })
+// .catch(error => {
+//   console.error('Error avance: ', error);
+// });
 
 const div = d3.select("#mapa");
 const width = parseInt(d3.select("#mapa").style("width"));
@@ -69,7 +69,7 @@ const datap = d3.json("./resources/datos/mexico300-2024.geojson");
 const datae = d3.json("./resources/datos/mexico300bordes-2024.geojson");
 const distdata = d3.csv("./resources/datos/distdata.csv");
 
-let pintar = Promise.all([datap,datae,distdata,datos]).then(function(data) {
+let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
 
     let distritos = data[0];
     let estados = data[1];
@@ -105,8 +105,7 @@ let pintar = Promise.all([datap,datae,distdata,datos]).then(function(data) {
               if(estaData) {
                 return `${dato.properties["estado"]} -
                 <b>Distrito ${dato.properties["distrito"].substr(2,2)}</b><br>
-               ${estaData.NOMBRE_DISTRITO_FEDERAL}<hr>
-               Gana: ${ganadores.get(estaData.CVEDIS).ganador.replaceAll("_"," ").replaceAll("-"," ")}` 
+               ${estaData.NOMBRE_DISTRITO_FEDERAL}` 
               } else {
                 return `${dato.properties["estado"]} -
                 <b>Distrito ${dato.properties["distrito"].substr(2,2)}</b><br>Aún no se ha reportado este distrito.`
@@ -145,18 +144,21 @@ let pintar = Promise.all([datap,datae,distdata,datos]).then(function(data) {
 
   });
 
-  Promise.all([pintar,datos]).then(function(data) {
+  Promise.all([pintar]).then(function(data) {
 
     let disthex = data[0];
 
     disthex.select("path").style("fill", d => {
+      // console.log("d",d);
       let cve = d["properties"]["distrito"];
-      let gandat = ganadores.get(cve);
-      if (gandat) {
-        let color = gandat["color"];
-        return color
-      }
-      return "lightgray"
+      // let gandat = ganadores.get(cve);
+      // if (gandat) {
+      //   let color = gandat["color"];
+      //   return color
+      // }
+      let dato = datamap.get(d["properties"]["distrito"]);
+      return dato.SKINTONE || "lightgray";
+  
     })
 
    //console.log("esto", disthex.select("path"))
