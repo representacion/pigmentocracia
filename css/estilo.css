@@ -84,9 +84,9 @@ body {
 }
 
 .distrito {
-    fill: #ddd;
-    stroke: #ddd;
-    stroke-width: 3px;
+    fill: white;
+    /* stroke: #ddd;
+    stroke-width: 3px; */
     font-family: "Saira Condensed";
 
 }

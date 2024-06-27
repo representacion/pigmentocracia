@@ -147,6 +147,7 @@ let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
   Promise.all([pintar]).then(function(data) {
 
     let disthex = data[0];
+    console.log("datamap",datamap);
 
     disthex.select("path").style("fill", d => {
       // console.log("d",d);
@@ -156,8 +157,9 @@ let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
       //   let color = gandat["color"];
       //   return color
       // }
-      let dato = datamap.get(d["properties"]["distrito"]);
-      return dato.SKINTONE || "lightgray";
+      let dato = datamap.get(d["properties"]["distrito"].toString());
+      // console.log(d["properties"]["distrito"],dato.SKIN_TONE)
+      return dato ? dato["SKIN-TONE"] : "white" || "white";
   
     })
 
@@ -171,7 +173,7 @@ let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
 
     d3.select("#barra").selectAll("*").remove();
 
-    d3.selectAll(".distrito").style("fill","lightgray");
+    d3.selectAll(".distrito").style("fill","white");
     d3.select(this).style("fill","#7800E0");
 
     let dato = datamap.get(d["properties"]["distrito"]);
