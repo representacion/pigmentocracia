@@ -1,4 +1,5 @@
 import { RootLayoutProps } from "@/types/app";
+import "@/styles/globals.scss";
 
 const RootLayout = ({ children }: RootLayoutProps) => {
 
