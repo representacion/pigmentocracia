@@ -3,7 +3,7 @@ import { Contributor } from "@/types/config/contributors";
 /**
  * @constant {Contributor[]} projectContributors - Project contributors (not repository contributors)
  */
-const projectContributors: Contributor[] = [
+const CONTRIBUTORS: Contributor[] = [
     {
         screenName: "Ana Padilla",
         href: "",
@@ -16,4 +16,4 @@ const projectContributors: Contributor[] = [
     }
 ];
 
-export { projectContributors };
+export { CONTRIBUTORS };
