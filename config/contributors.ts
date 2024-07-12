@@ -1,7 +1,8 @@
 import { Contributor } from "@/types/config/contributors";
 
-// This constant holds the list of contributors to the project
-// that are not registered as contributors in the repository
+/**
+ * @constant {Contributor[]} projectContributors - Project contributors (not repository contributors)
+ */
 const projectContributors: Contributor[] = [
     {
         screenName: "Ana Padilla",
