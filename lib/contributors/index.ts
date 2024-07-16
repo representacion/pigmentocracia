@@ -1,5 +1,6 @@
 import { octokit } from "@/lib/octokit";
 import { REPO, OWNER } from "@/config/repo";
+import { CONTRIBUTORS } from "@/config/contributors";
 import type { RestEndpointMethodTypes } from "@octokit/plugin-rest-endpoint-methods";
 import type { Contributor } from "@/types/config/contributors";
 
@@ -22,25 +23,46 @@ const getContributorName = async (login: string): Promise<RestEndpointMethodType
 
 const buildContributors = async (): Promise<Contributor[]> => {
     const gitHubContributors = await getRepoContributors();
-    const contributors: Contributor[] = [];
+    let contributors: Contributor[] = [];
 
-    gitHubContributors.forEach(async contributor => {
+    // Process Github contributors
+    const contributorsPromises = gitHubContributors.map(async (contributor) => {
         const login = contributor.login;
 
-        if (!login) return;
+        if (!login) return null;
 
         const name = await getContributorName(login);
-        contributors.push({
+        return {
             screenName: login,
             href: contributor.html_url || "",
             name: name || login
-        });
+        } as Contributor;
     });
+
+    const resolvedContributors = (await Promise.all(contributorsPromises)).filter(contributor => contributor !== null) as Contributor[];
+
+    // Add non-Github contributors
+    contributors = contributors.concat(resolvedContributors, CONTRIBUTORS);
 
     return contributors;
 }
 
+/**
+ * Fetch contributors
+ * 
+ * This function is a wrapper around the `buildContributors` function. It 
+ * is used to fetch the contributors for the site by calling the `buildContributors`
+ * and following the signature of the `useSWR` hook.
+ * 
+ * @param key 
+ * @returns 
+ */
+const fetchContributors = async (key: string): Promise<Contributor[]> => {
+    const contributors = await buildContributors();
+    return contributors;
+};
+
 export { 
     getRepoContributors, getContributorName, 
-    buildContributors
+    buildContributors, fetchContributors
 };
