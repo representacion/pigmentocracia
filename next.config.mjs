@@ -4,7 +4,7 @@ const nextConfig = {
     output: "export",
     // "basePath" is used to set the base path for the project.
     // Since the project is hosted on GitHub Pages, the base path is the repository name.
-    basePath: "pigmentocracia",
+    basePath: "/pigmentocracia",
     // Disable image optimization, since we don't have a Node.js server to handle it.
     images: {
         unoptimized: true
