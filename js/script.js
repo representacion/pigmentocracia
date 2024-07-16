@@ -102,24 +102,30 @@ let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
             .attr("data-tippy-content",(dato)=>{ 
               // console.log("tippy",dato.properties.distrito);
               var estaData = datos.filter(d=> d.CVEDIS == dato.properties.distrito )[0];
+              var html = "";
               if(estaData) {
-                return `${dato.properties["estado"]} -
+                if (estaData.PHOTO_URL) {
+                  html += `<img width="250" src="photos/${estaData.PHOTO_URL}"><br>`
+                }
+                else {
+                  html += `[Sin foto]<br>`
+
+                }
+                html += `${dato.properties["estado"]} -
                 <b>Distrito ${dato.properties["distrito"].substr(2,2)}</b><br>
-               ${estaData.NOMBRE_DISTRITO_FEDERAL}` 
+               ${estaData.NOMBRE_DISTRITO_FEDERAL}<br>
+               [${estaData.PARTIDO_2024}]
+               ${estaData.NOMBRE_DIPUTADO_ELECTO_2024}
+               <a href="https://www.gobernantes.info/mx/person/${estaData.ID_PERSON_GOBERNANTES}">Ver en gobernantes</a>
+               ` 
               } else {
-                return `${dato.properties["estado"]} -
+                html += `${dato.properties["estado"]} -
                 <b>Distrito ${dato.properties["distrito"].substr(2,2)}</b><br>Aún no se ha reportado este distrito.`
               }
+              return html;
             })
-    // .on("click", click);
 
-
-    
-    // disthex.append("text")
-    // .attr("x", d=>factorAjuste+d.geometry.coordinates[0][0][0]*factorAjuste)
-    // .attr("y", d=>-55*factorAjuste-d.geometry.coordinates[0][0][1]*factorAjuste)
-    // .text((dato)=>{  return dato.properties["distrito"].substr(2,2) } ) 
-
+            
 
 
 
@@ -130,13 +136,14 @@ let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
         .attr("class","estados")
         .attr("d",path)
         .style("fill", "none")
-        // .style("stroke", "black")
-        // .style("stroke-width","3px");
 
         tippy('.distrito', {
-          //content: '<strong>Bolded content</strong>',
           allowHTML: true,
           theme: 'light-border',
+          hideOnClick: true,
+          appendTo: () => document.body,
+          interactive: true,
+          trigger: "click"
         });
 
 
@@ -159,7 +166,7 @@ let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
       // }
       let dato = datamap.get(d["properties"]["distrito"].toString());
       // console.log(d["properties"]["distrito"],dato.SKIN_TONE)
-      return dato ? dato["SKIN-TONE"] : "white" || "white";
+      return dato ? dato["SKIN_TONE"] : "white" || "white";
   
     })
 
