@@ -16,15 +16,15 @@ import { PAGES } from "@/config/navigation";
 const NavBar = () => {
 
     return (
-        <nav className="navbar bg-base-100">
+        <div className="navbar bg-base-100">
             <div className="navbar-start">
                 <Mobile pages={PAGES} />
                 <Brand />
             </div>
-            <div className="navbar-center hidden lg:flex">
+            <nav className="navbar-center hidden lg:flex">
                 <Navigation pages={PAGES} />
-            </div>
-        </nav>
+            </nav>
+        </div>
     );
 };
 
