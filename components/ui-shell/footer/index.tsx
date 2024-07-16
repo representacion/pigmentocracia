@@ -1,4 +1,5 @@
 import { Brand } from "@/components/ui-shell/footer/brand";
+import { Contributors } from "@/components/ui-shell/footer/contributors";
 import { PAGES } from "@/config/navigation";
 
 const Footer = () => {
@@ -20,8 +21,8 @@ const Footer = () => {
                 <Brand />
                 {navigationItems}
             </nav>
-            <div>
-
+            <div className="flex flex-col items-center">
+                <Contributors />
             </div>
         </footer>
     );
