@@ -1,5 +1,6 @@
 import axios from "axios";
 import useSWR, { Fetcher } from "swr";
+import { parse } from "csv/sync";
 
 interface useCartogramDataArgs {
     /**
@@ -10,9 +11,14 @@ interface useCartogramDataArgs {
 
 const useCartogramData = <Properties extends Record<any, any>>({ path }: useCartogramDataArgs) => {
 
-    const fetcher: Fetcher<string, string> = async (path: string) => {
+    const fetcher: Fetcher<Properties[], string> = async (path: string) => {
         const response = await axios.get(path);
-        return response.data;
+        const data = response.data;
+        const parsedData = parse(data, {
+            columns: true,
+            skip_empty_lines: true
+        });
+        return parsedData
     };
 
     const { data, isLoading } = useSWR(path, fetcher);

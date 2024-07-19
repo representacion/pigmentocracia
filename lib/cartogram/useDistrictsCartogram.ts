@@ -1,8 +1,7 @@
-import useSWR from "swr";
 import { useCartogram } from "@/lib/cartogram/useCartogram";
-import { REPO } from "@/config/repo";
-import type { DistrictsCartogramGeoJsonProperties } from "@/types/cartogram";
 import { useCartogramData } from "@/lib/cartogram/useCartogramData";
+import { REPO } from "@/config/repo";
+import type { DistrictsCartogramDataProperties, DistrictsCartogramGeoJsonProperties } from "@/types/cartogram";
 
 const useDistrictsCartogram = ({ }) => {
 
@@ -23,7 +22,7 @@ const useDistrictsCartogram = ({ }) => {
     const {
         data: districtsData,
         isLoading: districtsDataIsLoading
-    } = useCartogramData({
+    } = useCartogramData<DistrictsCartogramDataProperties>({
         path: `${REPO}/data/distdata.csv`
     });
 
