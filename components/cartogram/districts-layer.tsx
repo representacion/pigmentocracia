@@ -1,14 +1,16 @@
 import { GeoJSON } from "react-leaflet";
-import { GeoJSON as GeoJsonObject } from "geojson";
 import { useDistrictsLayer } from "@/lib/cartogram/useDistrisctsLayer";
+import type { FeatureCollection, Polygon } from "geojson";
+import type { DistrictsCartogramDataProperties, DistrictsCartogramGeoJsonProperties } from "@/types/cartogram";
 
 interface DistrictsCartogramLayerProps {
-    vectorData: GeoJsonObject;
+    vectorData: FeatureCollection<Polygon, DistrictsCartogramGeoJsonProperties>;
+    featuresData: DistrictsCartogramDataProperties[];
 };
 
-const DistrictsCartogramLayer = ({ vectorData }: DistrictsCartogramLayerProps) => {
+const DistrictsCartogramLayer = ({ vectorData, featuresData }: DistrictsCartogramLayerProps) => {
 
-    const { } = useDistrictsLayer({ vectorData });
+    const { } = useDistrictsLayer({ vectorData, featuresData });
 
     return (
         <GeoJSON
