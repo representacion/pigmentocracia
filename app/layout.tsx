@@ -7,9 +7,9 @@ const RootLayout = ({ children }: RootLayoutProps) => {
 
     return (
         <html lang="es" data-theme="autumn">
-            <body>
+            <body className="w-full h-full flex flex-col">
                 <NavBar />
-                <main className="px-6 py-9">
+                <main className="flex-grow px-6 py-9">
                     {children}
                 </main>
                 <Footer />
