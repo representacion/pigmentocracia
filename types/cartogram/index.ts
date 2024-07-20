@@ -13,5 +13,8 @@ export type DistrictsCartogramDataProperties = {
     LN_MUJERES: number;
     LN_NO_BINARIO: number;
     LN: number;
-    "SKIN-TONE": string;
+    ID_PERSON_GOBERNANTES: number;
+    NOMBRE_DIPUTADO_ELECTO_2024: string;
+    PARTIDO_2024: string;
+    SKIN_TONE: string;
 };
