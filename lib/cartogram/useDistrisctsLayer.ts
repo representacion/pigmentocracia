@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
-import L from "leaflet";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import L, { LatLng, Layer } from "leaflet";
 import { useMap } from "react-leaflet";
-import type { FeatureCollection, Polygon } from "geojson";
+import type { Feature, FeatureCollection, Polygon } from "geojson";
 import type { DistrictsCartogramDataProperties, DistrictsCartogramGeoJsonProperties } from "@/types/cartogram";
 
 interface useDistrictsLayerArgs {
@@ -9,7 +9,11 @@ interface useDistrictsLayerArgs {
     featuresData: DistrictsCartogramDataProperties[];
 };
 
-const useDistrictsLayer = ({ vectorData }: useDistrictsLayerArgs) => {
+const useDistrictsLayer = ({ vectorData, featuresData }: useDistrictsLayerArgs) => {
+
+    const [popUpIsOpen, setPopUpIsOpen] = useState(false);
+    const [popUpData, setPopUpData] = useState<DistrictsCartogramDataProperties | null>(null);
+    const [popUpPosition, setPopUpPosition] = useState<LatLng | null>(null);
 
     const map = useMap();
 
@@ -18,6 +22,19 @@ const useDistrictsLayer = ({ vectorData }: useDistrictsLayerArgs) => {
         return bounds;
     }, [vectorData]);
 
+    const onEachFeature = useCallback((feature: Feature<Polygon, DistrictsCartogramGeoJsonProperties>, layer: Layer) => {
+        // Define click event
+        layer.on({
+            click: (event) => {
+                // Get position
+                const position = event.latlng;
+                setPopUpPosition(position);
+                // Open pop up
+                setPopUpIsOpen(true);
+            }
+        });
+    }, []);
+
     useEffect(() => {
         if (layerBounds) {
             map.fitBounds(layerBounds);
@@ -25,7 +42,9 @@ const useDistrictsLayer = ({ vectorData }: useDistrictsLayerArgs) => {
     }, [map, layerBounds]);
 
     return {
-
+        popUpIsOpen,
+        popUpPosition,
+        onEachFeature
     }
 
 };

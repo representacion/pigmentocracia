@@ -11,7 +11,7 @@ const DistrictsCartogram = () => {
 
     const {
         loading,
-        districtsGeoJson, statesGeoJson
+        districtsGeoJson, statesGeoJson, districtsData
     } = useDistrictsCartogram({});
 
     if (loading || !districtsGeoJson) {
