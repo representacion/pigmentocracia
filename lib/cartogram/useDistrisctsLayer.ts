@@ -26,23 +26,33 @@ const useDistrictsLayer = ({ vectorData, featuresData }: useDistrictsLayerArgs) 
         // Define click event
         layer.on({
             click: (event) => {
-                // Get position
+                // Get position and set it
                 const position = event.latlng;
                 setPopUpPosition(position);
                 // Open pop up
                 setPopUpIsOpen(true);
+
+                // Get the district id
+                const districtId = feature.properties?.distrito;
+                // Find the district data
+                const districtData = featuresData.find(d => d.CVEDIS === districtId);
+                // Set the district data
+                setPopUpData(districtData || null);
             }
         });
-    }, []);
+    }, [featuresData]);
 
     useEffect(() => {
-        if (layerBounds) {
-            map.fitBounds(layerBounds);
-        }
+        if (!map || !layerBounds) return;
+        console.log("layerBounds", layerBounds);
+        console.log("map", map);
+        
+        map.fitBounds(layerBounds);
     }, [map, layerBounds]);
 
     return {
         popUpIsOpen,
+        popUpData,
         popUpPosition,
         onEachFeature
     }

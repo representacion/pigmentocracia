@@ -1,4 +1,5 @@
-import { GeoJSON, Popup } from "react-leaflet";
+import { GeoJSON } from "react-leaflet";
+import { CartoGramPopup } from "@/components/cartogram/popup";
 import { useDistrictsLayer } from "@/lib/cartogram/useDistrisctsLayer";
 import type { LatLng } from "leaflet";
 import type { FeatureCollection, Polygon } from "geojson";
@@ -13,6 +14,7 @@ const DistrictsCartogramLayer = ({ vectorData, featuresData }: DistrictsCartogra
 
     const {
         popUpIsOpen, popUpPosition,
+        popUpData,
         onEachFeature
     } = useDistrictsLayer({ vectorData, featuresData });
 
@@ -23,11 +25,11 @@ const DistrictsCartogramLayer = ({ vectorData, featuresData }: DistrictsCartogra
                 attribution="Cartograma diseñado por <a href='https://github.com/DaveMex/Cartogram_Mexico/' target='_blank'>David Hernández</a>"
                 onEachFeature={onEachFeature}
             />
-            {(popUpIsOpen || popUpPosition) && (
-                <Popup position={popUpPosition as LatLng}>
-                    Hola
-                </Popup>
-            )}
+            <CartoGramPopup
+                popUpData={popUpData}
+                popUpPosition={popUpPosition as LatLng}
+                popUpIsOpen={popUpIsOpen}
+            />
         </>
 
     );

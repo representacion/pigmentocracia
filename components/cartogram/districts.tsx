@@ -4,6 +4,8 @@ import L from "leaflet";
 import { AttributionControl, MapContainer } from "react-leaflet";
 import { DistrictsCartogramLayer } from "@/components/cartogram/districts-layer";
 import { useDistrictsCartogram } from "@/lib/cartogram/useDistrictsCartogram";
+import { DistrictsCartogramDataProperties } from "@/types/cartogram";
+
 import "leaflet/dist/leaflet.css";
 import "@/styles/districts-cartogram.scss";
 
@@ -30,11 +32,17 @@ const DistrictsCartogram = () => {
                     width: "100%",
                     height: "100%"
                 }}
-                minZoom={-5}
+                minZoom={-2}
                 attributionControl={false}
             >
-                <DistrictsCartogramLayer vectorData={districtsGeoJson} />
-                <AttributionControl position="bottomright" prefix={"Powered by <a href='https://leafletjs.com/' target='_blank'>Leaflet</a>"} />
+                <DistrictsCartogramLayer
+                    vectorData={districtsGeoJson}
+                    featuresData={districtsData as DistrictsCartogramDataProperties[]}
+                />
+                <AttributionControl
+                    position="bottomright"
+                    prefix={"Powered by <a href='https://leafletjs.com/' target='_blank'>Leaflet</a>"}
+                />
             </MapContainer>
         </div>
     )
