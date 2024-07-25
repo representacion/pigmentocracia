@@ -42,13 +42,14 @@ tone_labels = [
 r = csv.reader(open(distdata_base_path)) # Here your csv file
 distdata = list(r)
 
-def update_distdata(cvedis,tone,file):
-    print("update_distdata",cvedis,tone,file)
+def update_distdata(cvedis,tone,dominant,file):
+    print("update_distdata",cvedis,tone,dominant,file)
     for line in distdata:
         # print(line[0],line[9],cvedis,tone)
         if (line[0] == cvedis):
             line[12] = tone
-            line[13] = file
+            line[13] = dominant
+            line[14] = file
             break
 
 def classify_perla(file):
@@ -80,21 +81,22 @@ def classify_perla(file):
         tone_labels=tone_labels,
         image_type="color",
         # convert_to_black_white=False,
-        # n_dominant_colors=2,
+        n_dominant_colors=3, #2,
         # new_width=100,
-        # scale=1.1,
-        # min_nbrs=5,
+        scale=2,
+        # min_nbrs=15,
         # min_size=(90, 90),
-        # threshold=0.3,
+        # threshold=0.1,
         # return_report_image=False,
     )
 
     cvedis = file.split("__")[0]
     tone = result["faces"][0]["skin_tone"]
+    dominant = result["faces"][0]["dominant_colors"][0]["color"];
 
     # cvedis_tones.extend([cvedis,tone])
 
-    update_distdata(cvedis,tone,file)
+    update_distdata(cvedis,tone,dominant,file)
 
 
 for (dirpath, dirnames, filenames) in walk(photo_dir):
