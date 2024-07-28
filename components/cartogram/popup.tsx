@@ -15,9 +15,9 @@ const CartoGramPopup = ({ popUpData, popUpPosition, popUpIsOpen }: CartoGramPopu
     if (!popUpIsOpen || !popUpData) return null;
 
     return (
-        <Popup position={popUpPosition as LatLng}>
-            <div className="flex flex-col p-4 gap-y-4">
-                <div>
+        <Popup position={popUpPosition as LatLng} maxWidth={240} minWidth={240}>
+            <div className="flex flex-col w-fit p-4 gap-y-4">
+                <div className="flex flex-col">
                     <h1 className="font-bold text-base">
                         <span className="text-gray-700">Distrito {popUpData.DISTRITO_FEDERAL}</span>, <span className="text-gray-950">{toTitleCase(popUpData.NOMBRE_ENTIDAD)}</span>
                     </h1>
@@ -28,13 +28,16 @@ const CartoGramPopup = ({ popUpData, popUpPosition, popUpIsOpen }: CartoGramPopu
                 <div>
 
                 </div>
-                <div>
+                <div className="flex flex-col">
                     <a
-                        className="!text-white btn btn-primary w-fit break-keep"
+                        className="flex flex-row !text-white btn btn-sm btn-primary w-full text-sm"
                         href={`https://www.gobernantes.info/mx/person/${popUpData.ID_PERSON_GOBERNANTES}`}
                         target="_blank"
                     >
-                        Ver en gobernantes.info <CgExternal size={24}/>
+                        <CgExternal className="block" size={24} />
+                        <span className="block">
+                            Gobernantes.info
+                        </span>
                     </a>
                 </div>
             </div>
