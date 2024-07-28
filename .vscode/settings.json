@@ -2,6 +2,7 @@
     "liveServer.settings.port": 5501,
     "typescript.preferences.importModuleSpecifier": "non-relative",
     "cSpell.words": [
-        "Cartograma"
+        "Cartograma",
+        "unoptimized"
     ]
 }
