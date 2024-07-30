@@ -15,7 +15,8 @@ const DistrictsCartogramLayer = ({ vectorData, featuresData }: DistrictsCartogra
     const {
         popUpIsOpen, popUpPosition,
         popUpData,
-        onEachFeature
+        onEachFeature,
+        featureStyle
     } = useDistrictsLayer({ vectorData, featuresData });
 
     return (
@@ -24,6 +25,8 @@ const DistrictsCartogramLayer = ({ vectorData, featuresData }: DistrictsCartogra
                 data={vectorData}
                 attribution="Cartograma diseñado por <a href='https://github.com/DaveMex/Cartogram_Mexico/' target='_blank'>David Hernández</a>"
                 onEachFeature={onEachFeature}
+                // @ts-ignore
+                style={featureStyle}
             />
             <CartoGramPopup
                 popUpData={popUpData}

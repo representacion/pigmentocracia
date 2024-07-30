@@ -42,6 +42,24 @@ const useDistrictsLayer = ({ vectorData, featuresData }: useDistrictsLayerArgs) 
         });
     }, [featuresData]);
 
+    const featureStyle = useCallback((feature: Feature<Polygon, DistrictsCartogramGeoJsonProperties>) => {
+
+        // Get the district id
+        const districtId = feature.properties?.distrito;
+        // Find the district data
+        const districtData = featuresData.find(d => d.CVEDIS === districtId);
+
+        // Define the style
+        const style: L.PathOptions = {
+            fillColor: districtData?.SKIN_TONE || "transparent",
+            color: "#ffffff",
+            weight: 0.5,
+            fillOpacity: 0.75
+        };
+
+        return style;
+    }, [featuresData]);
+
     useEffect(() => {
         if (!map || !layerBounds) return;
         console.log("layerBounds", layerBounds);
@@ -54,7 +72,8 @@ const useDistrictsLayer = ({ vectorData, featuresData }: useDistrictsLayerArgs) 
         popUpIsOpen,
         popUpData,
         popUpPosition,
-        onEachFeature
+        onEachFeature,
+        featureStyle
     }
 
 };
