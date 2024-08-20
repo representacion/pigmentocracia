@@ -14,6 +14,9 @@ let svg = div.append("svg")
 
 const datap = d3.json("./resources/datos/mexico300-2024.geojson");
 const datae = d3.json("./resources/datos/mexico300bordes-2024.geojson");
+let distdata_base = []
+d3.csv("./resources/datos/distdata_base.csv").then(datum=>distdata_base=datum);
+
 const distdata = d3.csv("./resources/datos/distdata.csv");
 
 let listado = "";
@@ -159,3 +162,22 @@ let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
     d3.select("#barra").append("p").html("Hombres: " + d3.format(",.0f")(dato["LN_MUJERES"]))
 }
 
+let selector =document.querySelector("#selector-color")
+selector.addEventListener("change",cambiaClasificacionColor)
+function cambiaClasificacionColor(){
+  if(selector.value == "kmedias"){
+    d3.selectAll("g.distrito_group").selectAll("path")
+    .style("fill", d => {
+      // console.log("d",d);
+      let color = distdata_base.filter(datum=>datum.CVEDIS==d.properties.distrito.toString())[0]
+      console.log(color)
+
+      // console.log(d["properties"]["distrito"],dato.SKIN_TONE)
+      return color.TONO_PIEL_KMEDIAS;
+  
+    })
+  }
+  else{
+    console.log("e")
+  }
+}
