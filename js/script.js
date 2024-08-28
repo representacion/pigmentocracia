@@ -99,16 +99,19 @@ let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
 
     for (let d in datos) {
         if (datos[d].PHOTO_URL) {
-          listado += `<div style="display: inline-block; width: 300px; float: left;">
-          <img width="250" src="photos/${datos[d].PHOTO_URL}">
-          <div style='display: inline-block; background-color: ${datos[d].SKIN_TONE}; width: 70px; height: 100px;'>perla</div>
-          <div style='display: inline-block; background-color: ${datos[d].DOMINANT}; width: 70px; height: 100px;'>dominante</div>
-          <div style='display: inline-block; background-color: ${datos[d].TONO_PIEL_KMEDIAS}; width: 70px; height: 100px;'>kmedias</div>
+          listado += `<div style="display: inline-block; width: 300px; float: left; border: 1px solid #ccc; font-size: 10px">
+          <div>
+          <img src="photos/${datos[d].PHOTO_URL}" style="max-height: 250px; max-width: 280px; height: 250px;">
+          </div>
+          <div style='display: inline-block; background-color: ${datos[d].SKIN_TONE}; width: 90px; height: 100px;'>perla</div>
+          <div style='display: inline-block; background-color: ${datos[d].DOMINANT}; width: 90px; height: 100px;'>dominante</div>
+          <div style='display: inline-block; background-color: ${datos[d].TONO_PIEL_KMEDIAS}; width: 90px; height: 100px;'>kmedias</div>
           Distrito ${datos[d].CVEDIS} -
           <b>Estado ${datos[d].NOMBRE_ENTIDAD}</b><br>
          ${datos[d].NOMBRE_DISTRITO_FEDERAL}<br>
          [${datos[d].PARTIDO_2024}]
          ${datos[d].NOMBRE_DIPUTADO_ELECTO_2024}
+         <br>
          <a href="https://www.gobernantes.info/mx/person/${datos[d].ID_PERSON_GOBERNANTES}">Ver en gobernantes</a>
          </div>
          `           
