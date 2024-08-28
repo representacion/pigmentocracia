@@ -14,6 +14,9 @@ let svg = div.append("svg")
 
 const datap = d3.json("./resources/datos/mexico300-2024.geojson");
 const datae = d3.json("./resources/datos/mexico300bordes-2024.geojson");
+let distdata_base = []
+d3.csv("./resources/datos/distdata_base.csv").then(datum=>distdata_base=datum);
+
 const distdata = d3.csv("./resources/datos/distdata.csv");
 
 let listado = "";
@@ -96,13 +99,19 @@ let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
 
     for (let d in datos) {
         if (datos[d].PHOTO_URL) {
-          listado += `<div style="display: inline-block; width: 300px; float: left;"><img width="250" src="photos/${datos[d].PHOTO_URL}">
-          <div style='display: inline-block; background-color: ${datos[d].SKIN_TONE}; width: 100px; height: 100px;'>perla</div><div style='display: inline-block; background-color: ${datos[d].DOMINANT}; width: 100px; height: 100px;'>dominante</div>
+          listado += `<div style="display: inline-block; width: 300px; float: left; border: 1px solid #ccc; font-size: 10px">
+          <div>
+          <img src="photos/${datos[d].PHOTO_URL}" style="max-height: 250px; max-width: 280px; height: 250px;">
+          </div>
+          <div style='display: inline-block; background-color: ${datos[d].SKIN_TONE}; width: 90px; height: 100px;'>perla</div>
+          <div style='display: inline-block; background-color: ${datos[d].DOMINANT}; width: 90px; height: 100px;'>dominante</div>
+          <div style='display: inline-block; background-color: ${datos[d].TONO_PIEL_KMEDIAS}; width: 90px; height: 100px;'>kmedias</div>
           Distrito ${datos[d].CVEDIS} -
           <b>Estado ${datos[d].NOMBRE_ENTIDAD}</b><br>
          ${datos[d].NOMBRE_DISTRITO_FEDERAL}<br>
          [${datos[d].PARTIDO_2024}]
          ${datos[d].NOMBRE_DIPUTADO_ELECTO_2024}
+         <br>
          <a href="https://www.gobernantes.info/mx/person/${datos[d].ID_PERSON_GOBERNANTES}">Ver en gobernantes</a>
          </div>
          `           
@@ -159,3 +168,22 @@ let pintar = Promise.all([datap,datae,distdata]).then(function(data) {
     d3.select("#barra").append("p").html("Hombres: " + d3.format(",.0f")(dato["LN_MUJERES"]))
 }
 
+let selector =document.querySelector("#selector-color")
+selector.addEventListener("change",cambiaClasificacionColor)
+function cambiaClasificacionColor(){
+  if(selector.value == "kmedias"){
+    d3.selectAll("g.distrito_group").selectAll("path")
+    .style("fill", d => {
+      // console.log("d",d);
+      let color = distdata_base.filter(datum=>datum.CVEDIS==d.properties.distrito.toString())[0]
+      console.log(color)
+
+      // console.log(d["properties"]["distrito"],dato.SKIN_TONE)
+      return color.TONO_PIEL_KMEDIAS;
+  
+    })
+  }
+  else{
+    console.log("e")
+  }
+}
