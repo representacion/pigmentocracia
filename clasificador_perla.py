@@ -4,7 +4,7 @@ from json import dumps
 from os import walk
 
 
-photo_dir = "./photos/"
+photo_dir = "./fotos/caras/"
 distdata_base_path = './resources/datos/distdata_base.csv';
 distdata_path = './resources/datos/distdata.csv';
 
@@ -42,14 +42,15 @@ tone_labels = [
 r = csv.reader(open(distdata_base_path)) # Here your csv file
 distdata = list(r)
 
-def update_distdata(cvedis,tone,dominant,file):
-    print("update_distdata",cvedis,tone,dominant,file)
+def update_distdata(cvedis,tone,dominant,file,accuracy):
+    print("update_distdata",cvedis,tone,dominant,file,accuracy)
     for line in distdata:
         # print(line[0],line[9],cvedis,tone)
         if (line[0] == cvedis):
             line[12] = tone
             line[13] = dominant
-            line[14] = file
+            line[14] = accuracy
+            line[15] = file
             break
 
 def classify_perla(file):
@@ -93,10 +94,12 @@ def classify_perla(file):
     cvedis = file.split("__")[0]
     tone = result["faces"][0]["skin_tone"]
     dominant = result["faces"][0]["dominant_colors"][0]["color"];
+    accuracy = result["faces"][0]["accuracy"];
+    # print(accuracy);
 
     # cvedis_tones.extend([cvedis,tone])
 
-    update_distdata(cvedis,tone,dominant,file)
+    update_distdata(cvedis,tone,dominant,file,accuracy)
 
 
 for (dirpath, dirnames, filenames) in walk(photo_dir):

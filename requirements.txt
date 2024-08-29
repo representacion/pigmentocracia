@@ -1,1 +1,5 @@
 skin-tone-classifier
+numpy
+cv2
+pandas
+sklearn
