@@ -9,21 +9,21 @@ const useDistrictsCartogram = ({ }) => {
         cartogram: districtsGeoJson,
         isLoading: districtsGeoJsonIsLoading
     } = useCartogram<DistrictsCartogramGeoJsonProperties>({
-        path: `${REPO}/data/mexico300-2024.geojson`
+        path: `/${REPO}/data/mexico300-2024.geojson`
     });
 
     const { 
         cartogram: statesGeoJson,
         isLoading: statesGeoJsonIsLoading
     } = useCartogram<DistrictsCartogramGeoJsonProperties>({
-        path: `${REPO}/data/mexico300bordes-2024.geojson`
+        path: `/${REPO}/data/mexico300bordes-2024.geojson`
     });
 
     const {
         data: districtsData,
         isLoading: districtsDataIsLoading
     } = useCartogramData<DistrictsCartogramDataProperties>({
-        path: `${REPO}/data/distdata.csv`
+        path: `/${REPO}/data/distdata.csv`
     });
 
     return {
