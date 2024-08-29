@@ -17,5 +17,7 @@ export type DistrictsCartogramDataProperties = {
     NOMBRE_DIPUTADO_ELECTO_2024: string;
     PARTIDO_2024: string;
     SKIN_TONE: string;
+    DOMINANT: string;
     PHOTO_URL: string;
+    TONO_PIEL_KMEDIAS: string;
 };
