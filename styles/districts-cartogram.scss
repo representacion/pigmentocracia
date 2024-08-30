@@ -1,0 +1,11 @@
+.leaflet-container {
+    @apply bg-transparent;
+};
+
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+    @apply bg-white/75 rounded-md shadow-md backdrop-blur;
+}
+
+.leaflet-popup-content {
+    @apply m-0 p-0;
+}
