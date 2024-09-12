@@ -1,8 +1,10 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Frontend files ==============================================================
+
 # dependencies
-/node_modules
-/.pnp
+node_modules
+.pnp
 .pnp.js
 .yarn/install-state.gz
 
@@ -10,11 +12,11 @@
 /coverage
 
 # next.js
-/.next/
-/out/
+.next/
+out/
 
 # production
-/build
+frontend/build
 
 # misc
 .DS_Store
@@ -35,6 +37,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Python
+# Python files ===============================================================
+
 .ipynb_checkpoints/
 env/
