@@ -4,9 +4,9 @@ from json import dumps
 from os import walk
 
 
-photo_dir = "./photos/"
-distdata_base_path = './resources/datos/distdata_base.csv';
-distdata_path = './resources/datos/distdata.csv';
+photo_dir = "./data/images/faces/"
+distdata_base_path = './data/districts/distdata_base.csv';
+distdata_path = './data/districts/distdata.csv';
 
 # Paleta PERLA
 tone_palette = [
