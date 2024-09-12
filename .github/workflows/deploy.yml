@@ -27,12 +27,15 @@ jobs:
                 restore-keys: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lock') }}
             - name: Install dependencies
               run: bun install
+              working-directory: ./frontend
             - name: Build
               run: bun run build
+              working-directory: ./frontend
             - name: Deploy
               uses: actions/upload-pages-artifact@v3
+              working-directory: ./frontend
               with:
-                path: ./out
+                path: ./frontend/out
     deploy:
         environment:
             name: github-pages
